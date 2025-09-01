@@ -10,7 +10,8 @@
         }
 
         async pullOn(element, className, method, encodedData) {
-            const decodedData = atob(encodedData); // Decode base64
+            //const decodedData = atob(encodedData)
+            const decodedData = {...JSON.parse(atob(encodedData)), ...this.getWiredValues(element)}; // Decode base64
 
             const res = await fetch(this.ajaxurl, {
                 method: 'POST',
@@ -20,7 +21,7 @@
                     nonce: this.nonce,
                     wire_class: className,
                     wire_method: method,
-                    vars: decodedData
+                    vars: JSON.stringify(decodedData)
                 })
             });
 
@@ -31,6 +32,15 @@
             } else {
                 console.error('Wire error:', j.data.message);
             }
+        }
+
+        getWiredValues(element){
+            let o = {};
+            element.closest('[wire-render]')
+            .querySelectorAll('[wire-value]')
+            .forEach(el => o[el.getAttribute('wire-value')] = el.value);
+
+            return o;
         }
     }
 

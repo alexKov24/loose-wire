@@ -7,6 +7,10 @@ use ReflectionProperty;
 interface Wired
 {
     public function render(): string;
+    public function getPublicProperties(): array;
+
+    public function setPublicProperties(array $data): void;
+
 }
 
 abstract class Wire implements Wired
@@ -20,7 +24,7 @@ abstract class Wire implements Wired
         return "loose.pullOn(this, \"$className\", \"$method\", \"$props\")";
     }
 
-    public function getPublicProperties()
+    public function getPublicProperties(): array
     {
         $reflection = new ReflectionClass($this);
         $props = [];
@@ -32,7 +36,7 @@ abstract class Wire implements Wired
         return $props;
     }
 
-    public function setPublicProperties($data)
+    public function setPublicProperties(array $data): void
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
