@@ -20,7 +20,8 @@ class WireManager
             $wire->$method();
         }
 
-        return $wire->render();
+        // rerenders the wire inside the wrapper
+        return "<div wire-render>" . $wire->render() . "</div>";
     }
 
     public function extractPublicProperties($wire)
@@ -43,7 +44,8 @@ class WireManager
      * @return Wired
      * 
      */
-    private static function getClassInstance(string $fileClassName): Wired{
+    private static function getClassInstance(string $fileClassName): Wired
+    {
         $wireFile = get_template_directory() . '/wires/' . $fileClassName . '.php';
 
         if (!file_exists($wireFile)) {
@@ -52,7 +54,7 @@ class WireManager
 
         require_once $wireFile;
 
-        if(!class_exists($fileClassName)) {
+        if (!class_exists($fileClassName)) {
             throw new Exception("Wire class not found: $fileClassName");
         }
         return new $fileClassName();
@@ -71,11 +73,12 @@ class WireManager
      *  echo WireManager::setupWire('Clicker');
      * 
      */
-    public static function setupWire(string $fileClassName ):string{
+    public static function setupWire(string $fileClassName): string
+    {
 
         $wire = self::getClassInstance($fileClassName);
 
-        return "<!-- setupWire --><div wire-render>".$wire->render()."</div>";
+        return "<div wire-render>" . $wire->render() . "</div>";
     }
 
     /**
@@ -91,7 +94,8 @@ class WireManager
      *  echo WireManager::setupWire('Clicker');
      * 
      */
-    public static function setupTheWire($fileClassName){
+    public static function setupTheWire($fileClassName)
+    {
         echo self::setupWire($fileClassName);
     }
 }

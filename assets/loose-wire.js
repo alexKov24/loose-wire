@@ -10,8 +10,8 @@
         }
 
         async pullOn(element, className, method, encodedData) {
-            //const decodedData = atob(encodedData)
-            const decodedData = {...JSON.parse(atob(encodedData)), ...this.getWiredValues(element)}; // Decode base64
+
+            const decodedData = { ...JSON.parse(atob(encodedData)), ...this.getWiredValues(element) }; // Decode base64
 
             const res = await fetch(this.ajaxurl, {
                 method: 'POST',
@@ -28,17 +28,18 @@
             const j = await res.json();
 
             if (j.success) {
-                element.closest("[wire-render]").innerHTML = j.data.html;
+                element.closest("[wire-render]").outerHTML = j.data.html;
             } else {
                 console.error('Wire error:', j.data.message);
             }
         }
 
-        getWiredValues(element){
+        getWiredValues(element) {
             let o = {};
+
             element.closest('[wire-render]')
-            .querySelectorAll('[wire-value]')
-            .forEach(el => o[el.getAttribute('wire-value')] = el.value);
+                .querySelectorAll('[wire-value]')
+                .forEach(el => o[el.getAttribute('wire-value')] = el.value);
 
             return o;
         }

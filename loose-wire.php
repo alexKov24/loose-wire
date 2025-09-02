@@ -27,7 +27,7 @@ function loose_wire_enqueue_scripts()
 
     wp_enqueue_script(
         'loose-wire-js',
-        plugin_dir_url(__FILE__) . 'assets/loose-wire.js', // Fixed: Use plugin_dir_url()
+        plugin_dir_url(__FILE__) . 'assets/loose-wire.js',
         ['jquery'],
         '1.0.0',
         true
