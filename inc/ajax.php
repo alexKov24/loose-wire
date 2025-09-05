@@ -1,5 +1,5 @@
 <?php
-use LooseWire\Classes\WireManager;
+use LooseWire\WireManager;
 
 // Hooks work with global functions
 add_action('wp_ajax_loose_wire_pull', 'loose_wire_handle_pull');

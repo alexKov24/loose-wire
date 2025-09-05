@@ -1,6 +1,6 @@
 <?php
 
-namespace LooseWire\Classes;
+namespace LooseWire;
 
 use Exception;
 use ReflectionProperty;

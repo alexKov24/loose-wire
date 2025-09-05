@@ -1,5 +1,5 @@
 <?php
-namespace LooseWire\Classes;
+namespace LooseWire;
 
 use ReflectionClass;
 use ReflectionProperty;
