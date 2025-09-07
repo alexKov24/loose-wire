@@ -16,7 +16,7 @@
             })
         }
 
-        async pullOn(element, className, method, encodedData) {
+        async pullOn(element, className, method) {
 
             const wireData = element.closest("[wire\\:data]").getAttribute("wire:data");
             const decodedData = { ...JSON.parse(wireData), ...this.getWiredValues(element) }; // Decode base64

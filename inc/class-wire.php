@@ -22,7 +22,7 @@ abstract class Wire implements Wired
         $props = $this->getEncodedPublicProperties();
 
         return <<<JS
-            loose.pullOn(this, "{$className}", "{$method}", "{$props}");
+            loose.pullOn(this, "{$className}", "{$method}");
         JS;
     }
 
