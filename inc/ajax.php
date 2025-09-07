@@ -20,7 +20,7 @@ function loose_wire_handle_pull()
     $manager = new WireManager();
 
     try {
-        $html = $manager->pullTheWire($className, $method, $publicVars);
+        $html = $manager->getTheWire($className, $method, $publicVars);
         wp_send_json_success(['html' => $html]);
     } catch (Exception $e) {
         wp_send_json_error(['message' => $e->getMessage()]);

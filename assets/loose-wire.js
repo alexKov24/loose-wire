@@ -9,9 +9,17 @@
 
         }
 
+        setup(){
+            document.querySelectorAll('[wire\\:data]').forEach(el=>{
+                const data = atob(el.getAttribute('[wire:data]'));
+                console.log(data);
+            })
+        }
+
         async pullOn(element, className, method, encodedData) {
 
-            const decodedData = { ...JSON.parse(atob(encodedData)), ...this.getWiredValues(element) }; // Decode base64
+            const wireData = element.closest("[wire\\:data]").getAttribute("wire:data");
+            const decodedData = { ...JSON.parse(wireData), ...this.getWiredValues(element) }; // Decode base64
 
             const res = await fetch(this.ajaxurl, {
                 method: 'POST',
@@ -28,7 +36,7 @@
             const j = await res.json();
 
             if (j.success) {
-                element.closest("[wire-render]").outerHTML = j.data.html;
+                element.closest("[wire\\:data]").outerHTML = j.data.html;
             } else {
                 console.error('Wire error:', j.data.message);
             }
@@ -37,7 +45,7 @@
         getWiredValues(element) {
             let o = {};
 
-            element.closest('[wire-render]')
+            element.closest('[wire\\:data]')
                 .querySelectorAll('[wire-value]')
                 .forEach(el => o[el.getAttribute('wire-value')] = el.value);
 
@@ -48,6 +56,7 @@
     // Initialize when DOM is ready
     $(document).ready(function () {
         window.loose = new Loose();
+        window.loose.setup();
     });
 
 })(jQuery);
