@@ -16,16 +16,6 @@ interface Wired
 abstract class Wire implements Wired
 {
 
-    public function pullOn($method): string
-    {
-        $className = get_class($this);
-        $props = $this->getEncodedPublicProperties();
-
-        return <<<JS
-            loose.pullOn(this, "{$className}", "{$method}");
-        JS;
-    }
-
     public function getPublicProperties(): array
     {
         $reflection = new ReflectionClass($this);
@@ -38,9 +28,10 @@ abstract class Wire implements Wired
         return $props;
     }
 
-    public function getEncodedPublicProperties(): string{
+    public function getEncodedPublicProperties(): string
+    {
         //return htmlentities(json_encode($this->getPublicProperties()));
-        return  base64_encode(json_encode($this->getPublicProperties()));
+        return base64_encode(json_encode($this->getPublicProperties()));
     }
 
     public function setPublicProperties(array $data): void
